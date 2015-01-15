@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@android:id/text1"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:textColor="#34495e"
+    android:background="@drawable/nav_selector"
+    android:fontFamily="sans-serif-light"
+    android:textSize="20sp"
+    android:gravity="center_vertical"
+    android:paddingLeft="14dp"
+    android:padding="20dp"
+    android:paddingRight="14dp"
+    android:minHeight="35sp"
+    />
