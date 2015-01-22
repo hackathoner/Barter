@@ -18,15 +18,19 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.FirebaseException;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.parse.Parse;
 import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -37,6 +41,7 @@ public class ListingActivity extends Activity {
     private DrawerLayout drawerLayout;
     private View mCustomView;
     private ImageView menu;
+    private String friendUserId,curUserId;
     private ListView listview;
     private Button startChat;
     private ParseUser myuser;
@@ -74,18 +79,38 @@ public class ListingActivity extends Activity {
         startChat.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Firebase userref = new Firebase("https://barter.firbaseio.com/Users/0").child("Chat").push();
+                  curUserId = "";
+                 friendUserId = "";
+                Firebase firebaseRef = new Firebase("https://barter.firebaseio.com/Users/");
+                Query curUserQuery = firebaseRef;
+                curUserQuery.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        Iterable<DataSnapshot> myiterator = dataSnapshot.getChildren();
+                        for(DataSnapshot f: myiterator){
+                            Log.d("String",f.toString());
+                            Log.d("Child",f.child("email").toString());
+//                            if(f.child("Email").getValue().toString().equals(myuser.getEmail())){
+//                                Log.d("Id",f.getKey());
+//                            }
+                        }
+                        Log.d("CurUserid",curUserId);
+                    }
+
+                    @Override
+                    public void onCancelled(FirebaseError firebaseError) {
+                        Log.d("error",firebaseError.toString());
+                    }
+                });
+                Firebase curUserRef = new Firebase("https://barter.firebaseio.com/Users/" + curUserId).child("Chat").push();
+                Firebase friendUserRef = new Firebase("https://barter.firebaseio.com/Users/" + friendUserId).child("Chat").push();
                 Map<String,String> chatobj = new HashMap<String,String>();
                 chatobj.put("User1",myuser.getEmail());
                 chatobj.put("User2",creator.getText().toString());
                 try {
                     Log.i("Hello",chatobj.toString());
-                    userref.setValue(chatobj, new Firebase.CompletionListener() {
-                        @Override
-                        public void onComplete(FirebaseError firebaseError, Firebase firebase) {
-                            Log.i(firebaseError.toString(),firebaseError.toString());
-                        }
-                    });
+//                    curUserRef.setValue(chatobj);
+//                    friendUserRef.setValue(chatobj);
                 }catch (FirebaseException j) {
                     Log.i("SOmething si happening", j.toString());
                 }
