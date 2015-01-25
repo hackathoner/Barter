@@ -73,7 +73,7 @@ public class ChatsActivity extends Activity {
         drawerListView = (ListView) findViewById(R.id.left_drawer);
 
         // Set the adapter for the list view
-        drawerListView.setAdapter(new ArrayAdapter<String>(this,R.layout.drawer_listview_item, drawerListViewItems));
+        drawerListView.setAdapter(new ArrayAdapter<String>(ChatsActivity.this,R.layout.drawer_listview_item, drawerListViewItems));
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerListView.setOnItemClickListener(new DrawerItemClickListener());
@@ -125,10 +125,6 @@ public class ChatsActivity extends Activity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
 
         return super.onOptionsItemSelected(item);
     }
