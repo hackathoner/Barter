@@ -120,7 +120,7 @@ public class ChatsActivity extends Activity {
                                     Map<String,Object> map = (Map<String,Object>)snapshot.getValue();
 
                                     Log.d("SNapshot",map.get("ListingName").toString());
-
+                                    //TODO Make an oncclick for the listview items
                                     String chatTitle = map.get("ListingName").toString();
                                     String chatUserName = map.get("User2Name").toString();
                                     Log.d("Username",chatUserName);
@@ -132,6 +132,17 @@ public class ChatsActivity extends Activity {
                             }
                             chatsAdapter = new ChatsAdapter(getApplicationContext(),chatObjects);
                             listview.setAdapter(chatsAdapter);
+                            listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                    ChatObject chatObject = chatsAdapter.getItem(position);
+                                    Intent myIntent = new Intent(getApplicationContext(),ChatScreen.class);
+                                    myIntent.putExtra("ChatterName",chatObject.getChatterName());
+                                    myIntent.putExtra("ChatterEmail", chatObject.getChatterEmail());
+                                    myIntent.putExtra("Title",chatObject.getTitle());
+                                    startActivity(myIntent);
+                                }
+                            });
 
                         }
 

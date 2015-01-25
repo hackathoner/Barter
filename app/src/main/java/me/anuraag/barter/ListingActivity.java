@@ -116,15 +116,21 @@ public class ListingActivity extends Activity {
                          curUserRef = new Firebase("https://barter.firebaseio.com/Users/" + curUserId).child("Chat").push();
                          friendUserRef = new Firebase("https://barter.firebaseio.com/Users/" + friendUserId).child("Chat").push();
                         Map<String,String> chatobj = new HashMap<String,String>();
+                        Map<String,String> chatobj2 = new HashMap<String,String>();
                         chatobj.put("User1",myuser.getEmail());
                         chatobj.put("User1Name",myuser.getString("Name"));
                         chatobj.put("User2",creator.getText().toString());
                         chatobj.put("User2Name",getIntent().getStringExtra("creatorName"));
                         chatobj.put("ListingName",title.getText().toString());
+                        chatobj2.put("User2",myuser.getEmail());
+                        chatobj2.put("User2Name",myuser.getString("Name"));
+                        chatobj2.put("User1",creator.getText().toString());
+                        chatobj2.put("User1Name",getIntent().getStringExtra("creatorName"));
+                        chatobj2.put("ListingName",title.getText().toString());
                         try {
                             Log.i("Me",chatobj.toString());
                             curUserRef.setValue(chatobj);
-//                            friendUserRef.setValue(chatobj);
+                            friendUserRef.setValue(chatobj2);
                         }catch (FirebaseException j) {
                             Log.i("SOmething si happening", j.toString());
                         }

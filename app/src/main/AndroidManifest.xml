@@ -41,6 +41,7 @@
         </activity>
         <activity
             android:name=".ChatScreen"
+            android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar"
             android:label="@string/title_activity_chat_screen" >
         </activity>
     </application>
