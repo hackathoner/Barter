@@ -131,8 +131,8 @@ public class HomePage extends Activity {
                     Log.d("score", "Retrieved " + parseObjects.size() + " scores");
                     templist = parseObjects;
                     for(int x = 0; x < parseObjects.size(); x++){
-                        listingObjects.add(new ListingObject(parseObjects.get(x).getString("title"),parseObjects.get(x).getString("address"),parseObjects.get(x).getString("description"),parseObjects.get(x).getString("creator")));
-                        Log.i("ObjectCreated",new ListingObject(parseObjects.get(x).getString("title"),parseObjects.get(x).getString("address"),parseObjects.get(x).getString("description"),parseObjects.get(x).getString("creator")).toString());
+                        listingObjects.add(new ListingObject(parseObjects.get(x).getString("title"),parseObjects.get(x).getString("address"),parseObjects.get(x).getString("description"),parseObjects.get(x).getString("creator"),parseObjects.get(x).getString("creatorName")));
+                        Log.i("ObjectCreated",new ListingObject(parseObjects.get(x).getString("title"),parseObjects.get(x).getString("address"),parseObjects.get(x).getString("description"),parseObjects.get(x).getString("creator"),parseObjects.get(x).getString("creatorName")).toString());
                         listingAdapter = new ListingAdapter(getApplicationContext(),listingObjects);
                         listview = (ListView)findViewById(R.id.lists);
                         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -147,6 +147,8 @@ public class HomePage extends Activity {
                                 myIntent.putExtra("address",ad);
                                 myIntent.putExtra("description",des);
                                 myIntent.putExtra("creator",myobj.getCreator());
+                                myIntent.putExtra("creatorName",myobj.getCreatorName());
+                                Log.d("CreatorName",myobj.getCreatorName());
                                 startActivity(myIntent);
                             }
                         });
@@ -228,6 +230,9 @@ public class HomePage extends Activity {
             if(name.equals("Home")){
                 Intent myintent = new Intent(getApplicationContext(),HomePage.class);
                 startActivity(myintent);
+            }
+            if(name.equals("Chats")){
+                startActivity(new Intent(getApplicationContext(),ChatsActivity.class));
             }
             Toast.makeText(getApplicationContext(), ((TextView)view).getText(), Toast.LENGTH_LONG).show();
             doThis();

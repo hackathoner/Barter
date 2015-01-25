@@ -1,11 +1,10 @@
 package me.anuraag.barter;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarActivity;
+import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,38 +13,35 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
 import com.parse.Parse;
-import com.parse.ParseObject;
 import com.parse.ParseUser;
 
 
-public class CreateListing extends Activity {
-
+public class ChatsActivity extends Activity {
     private String[] drawerListViewItems;
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private View mCustomView;
-    private EditText title,description,date,address;
-    private Button submit;
+    private TextView mTitleTextView;
     private ParseUser myuser;
     private ImageView menu;
-    private TextView mTitleTextView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_create_listing);
-
+        setContentView(R.layout.activity_chats);
+        Firebase.setAndroidContext(this);
         Parse.initialize(this, "CZUQqTZcedP8pSmLPqHvBkxd41pmfTF7vyEch1xq", "f3aQ4TYpBwSZ4K8BkJpbkSrm1DrWKrxJH5LR3OK8");
         try{
             myuser = ParseUser.getCurrentUser();
-            Log.i(myuser.getEmail(),myuser.getEmail());
+            Log.i(myuser.getEmail(), myuser.getEmail());
 
         }catch (NullPointerException n){
             Log.d(n.toString(),n.toString());
@@ -81,56 +77,8 @@ public class CreateListing extends Activity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerListView.setOnItemClickListener(new DrawerItemClickListener());
-
-
-        title = (EditText)findViewById(R.id.editText);
-        description = (EditText)findViewById(R.id.editText2);
-        address = (EditText)findViewById(R.id.editText4);
-
-        submit = (Button)findViewById(R.id.button2);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(title.getText().toString().isEmpty() || description.getText().toString().isEmpty()|| address.getText().toString().isEmpty()){
-                    issueAlert("Please make sure you fill out all the fields properly");
-                }else {
-                    createListing();
-                    Toast.makeText(getApplicationContext(), "Listing Created", Toast.LENGTH_SHORT).show();
-
-                    startActivity(new Intent(getApplicationContext(),HomePage.class));
-                }
-            }
-        });
-
     }
 
-    public void createListing(){
-        ParseObject listing = new ParseObject("Listing");
-        listing.put("title",title.getText().toString());
-        listing.put("description",description.getText().toString());
-        listing.put("address",address.getText().toString());
-        Log.d(myuser.getEmail(),myuser.getEmail());
-        listing.put("creator",myuser.getEmail());
-        listing.put("creatorName",myuser.getString("Name"));
-        Log.d("CreatorName",myuser.getString("Name"));
-        listing.saveInBackground();
-        title.setText("");
-        description.setText("");
-        address.setText("");
-    }
-    private void issueAlert(String issue)
-    {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setMessage(issue)
-                .setCancelable(false)
-                .setPositiveButton("OK", new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int id) {
-                        //do things
-                    }
-                });
-        AlertDialog alert = builder.create();
-        alert.show();
-    }
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
         public void onItemClick(AdapterView parent, View view, int position, long id) {
@@ -163,11 +111,10 @@ public class CreateListing extends Activity {
 
         }
     }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_create_listing, menu);
+        getMenuInflater().inflate(R.menu.menu_chats, menu);
         return true;
     }
 

@@ -117,7 +117,10 @@ public class ListingActivity extends Activity {
                          friendUserRef = new Firebase("https://barter.firebaseio.com/Users/" + friendUserId).child("Chat").push();
                         Map<String,String> chatobj = new HashMap<String,String>();
                         chatobj.put("User1",myuser.getEmail());
+                        chatobj.put("User1Name",myuser.getString("Name"));
                         chatobj.put("User2",creator.getText().toString());
+                        chatobj.put("User2Name",getIntent().getStringExtra("creatorName"));
+                        chatobj.put("ListingName",title.getText().toString());
                         try {
                             Log.i("Me",chatobj.toString());
                             curUserRef.setValue(chatobj);
@@ -197,6 +200,9 @@ public class ListingActivity extends Activity {
             if(name.equals("Home")){
                 Intent myintent = new Intent(getApplicationContext(),HomePage.class);
                 startActivity(myintent);
+            }
+            if(name.equals("Chats")){
+                startActivity(new Intent(getApplicationContext(),ChatsActivity.class));
             }
             Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_LONG).show();
             doThis();
