@@ -155,7 +155,7 @@ public class CreateListing extends Activity {
         if(drawerLayout.isDrawerOpen(Gravity.START))
         {
             drawerLayout.closeDrawer(Gravity.START);
-            mTitleTextView.setText("HomePage");
+            mTitleTextView.setText("Create Listing");
         }
         else{
             drawerLayout.openDrawer(Gravity.START);

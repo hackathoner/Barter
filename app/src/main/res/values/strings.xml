@@ -35,5 +35,6 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_listing">ListingActivity</string>
     <string name="title_activity_chats">ChatsActivity</string>
+    <string name="title_activity_chat_screen">ChatScreen</string>
 
 </resources>

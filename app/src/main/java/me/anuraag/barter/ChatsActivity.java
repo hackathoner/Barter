@@ -1,6 +1,7 @@
 package me.anuraag.barter;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
@@ -11,6 +12,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
@@ -18,9 +20,20 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.FirebaseException;
+import com.firebase.client.Query;
+import com.firebase.client.ValueEventListener;
 import com.parse.Parse;
+import com.parse.ParseObject;
 import com.parse.ParseUser;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 public class ChatsActivity extends Activity {
@@ -28,8 +41,15 @@ public class ChatsActivity extends Activity {
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private View mCustomView;
+    private Query curUserQuery;
     private TextView mTitleTextView;
     private ParseUser myuser;
+    private String curUserId = "";
+    private ChatsAdapter chatsAdapter;
+    private Iterable<DataSnapshot> snapshots;
+    private ArrayList<ChatObject> chatObjects;
+    private ListView listview;
+    private List<ParseObject> templist;
     private ImageView menu;
 
 
@@ -77,7 +97,59 @@ public class ChatsActivity extends Activity {
 
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerListView.setOnItemClickListener(new DrawerItemClickListener());
+        populateListView();
     }
+    public void populateListView(){
+        chatObjects = new ArrayList<ChatObject>();
+        Firebase firebaseRef = new Firebase("https://barter.firebaseio.com/Users/");
+        curUserQuery = firebaseRef;
+        curUserQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                listview = (ListView)findViewById(R.id.lists);
+                Iterable<DataSnapshot> myiterator = dataSnapshot.getChildren();
+                for(DataSnapshot f: myiterator){
+
+                    if(f.child("email").getValue()!=null) {
+                        String swag = f.child("email").getValue().toString();
+                        if(swag.equals(myuser.getEmail())){
+                            curUserId = f.getKey();
+                            snapshots = f.getChildren();
+                            for(DataSnapshot snapshot: snapshots){
+                                Map<String,Object> map = (Map<String,Object>)snapshot.getValue();
+                                String chatTitle = map.get("ListingName").toString();
+                                String chatUserName = map.get("User2Name").toString();
+                                String chatEmail = map.get("User2").toString();
+                                chatObjects.add(new ChatObject(chatTitle,chatUserName,chatEmail));
+                            }
+                            chatsAdapter = new ChatsAdapter(getApplicationContext(),chatObjects);
+                            listview.setAdapter(chatsAdapter);
+
+                        }
+
+                        Log.d("Child", f.child("email").getValue().toString());
+
+                    }else{
+                        Log.d("null","email is null hoe");
+                    }
+
+                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+                Log.d("error",firebaseError.toString());
+            }
+
+
+        });
+
+        //TODO Add Chat objects under Firebase Users
+        //TODO Create ListView Chat Page
+        //TODO Create Chats
+
+    }
+
 
     private class DrawerItemClickListener implements ListView.OnItemClickListener {
         @Override
@@ -103,13 +175,36 @@ public class ChatsActivity extends Activity {
         if(drawerLayout.isDrawerOpen(Gravity.START))
         {
             drawerLayout.closeDrawer(Gravity.START);
-            mTitleTextView.setText("HomePage");
+            mTitleTextView.setText("Chats");
         }
         else{
             drawerLayout.openDrawer(Gravity.START);
             mTitleTextView.setText("Menu");
 
         }
+    }
+    public static class ChatsAdapter extends ArrayAdapter<ChatObject> {
+        private TextView title,name,address;
+        public ChatsAdapter(Context context, ArrayList<ChatObject> chatObjects) {
+            super(context, 0, chatObjects);
+        }
+
+        @Override
+        public View getView(int position, View rootView, ViewGroup parent) {
+            // Get the data item for this position
+            ChatObject chatObject = getItem(position);
+            // Check if an existing view is being reused, otherwise inflate the view
+            if (rootView == null) {
+                rootView = LayoutInflater.from(getContext()).inflate(R.layout.list_view_item, parent, false);
+            }
+            title = (TextView) rootView.findViewById(R.id.title);
+            name = (TextView) rootView.findViewById(R.id.name);
+            title.setText(chatObject.getTitle());
+            name.setText(chatObject.getChatterName());
+            return rootView;
+        }
+
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
