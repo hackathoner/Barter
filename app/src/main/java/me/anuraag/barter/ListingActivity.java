@@ -33,6 +33,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 
 public class ListingActivity extends Activity {
@@ -41,9 +42,11 @@ public class ListingActivity extends Activity {
     private DrawerLayout drawerLayout;
     private View mCustomView;
     private ImageView menu;
+    private Query curUserQuery;
     private String friendUserId,curUserId;
     private ListView listview;
     private Button startChat;
+    private Firebase curUserRef,friendUserRef;
     private ParseUser myuser;
     private Firebase myref;
     private TextView title,address,description,creator;
@@ -82,38 +85,56 @@ public class ListingActivity extends Activity {
                   curUserId = "";
                  friendUserId = "";
                 Firebase firebaseRef = new Firebase("https://barter.firebaseio.com/Users/");
-                Query curUserQuery = firebaseRef;
+                  curUserQuery = firebaseRef;
                 curUserQuery.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(DataSnapshot dataSnapshot) {
                         Iterable<DataSnapshot> myiterator = dataSnapshot.getChildren();
                         for(DataSnapshot f: myiterator){
-                            Log.d("String",f.toString());
-                            Log.d("Child",f.child("email").toString());
-//                            if(f.child("Email").getValue().toString().equals(myuser.getEmail())){
-//                                Log.d("Id",f.getKey());
-//                            }
+
+                            if(f.child("email").getValue()!=null) {
+                                String swag = f.child("email").getValue().toString();
+                                if(swag.equals(myuser.getEmail())){
+                                    curUserId = f.getKey();
+                                }
+                                if(swag.equals(creator.getText().toString()))
+                                {
+                                    friendUserId = f.getKey();
+                                }
+                                Log.d("Child", f.child("email").getValue().toString());
+
+                            }else{
+                                Log.d("null","email is null hoe");
+                            }
+
+                            }
+//                        }
+                        curUserQuery.removeEventListener(this);
+
+                        Log.d("Me",curUserId);
+                        Log.d("Firend",friendUserId);
+                         curUserRef = new Firebase("https://barter.firebaseio.com/Users/" + curUserId).child("Chat").push();
+                         friendUserRef = new Firebase("https://barter.firebaseio.com/Users/" + friendUserId).child("Chat").push();
+                        Map<String,String> chatobj = new HashMap<String,String>();
+                        chatobj.put("User1",myuser.getEmail());
+                        chatobj.put("User2",creator.getText().toString());
+                        try {
+                            Log.i("Me",chatobj.toString());
+                            curUserRef.setValue(chatobj);
+//                            friendUserRef.setValue(chatobj);
+                        }catch (FirebaseException j) {
+                            Log.i("SOmething si happening", j.toString());
                         }
-                        Log.d("CurUserid",curUserId);
                     }
 
                     @Override
                     public void onCancelled(FirebaseError firebaseError) {
                         Log.d("error",firebaseError.toString());
                     }
+
+
                 });
-                Firebase curUserRef = new Firebase("https://barter.firebaseio.com/Users/" + curUserId).child("Chat").push();
-                Firebase friendUserRef = new Firebase("https://barter.firebaseio.com/Users/" + friendUserId).child("Chat").push();
-                Map<String,String> chatobj = new HashMap<String,String>();
-                chatobj.put("User1",myuser.getEmail());
-                chatobj.put("User2",creator.getText().toString());
-                try {
-                    Log.i("Hello",chatobj.toString());
-//                    curUserRef.setValue(chatobj);
-//                    friendUserRef.setValue(chatobj);
-                }catch (FirebaseException j) {
-                    Log.i("SOmething si happening", j.toString());
-                }
+
                 //TODO Add Chat objects under Firebase Users
                 //TODO Create ListView Chat Page
                 //TODO Create Chats
