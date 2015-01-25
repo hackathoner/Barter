@@ -16,7 +16,7 @@
 -->
 <resources>
 
-    <string name="app_name">Navigation Drawer Example</string>
+    <string name="app_name">Barter</string>
 
     <string-array name="Items">
         <item>Home</item>

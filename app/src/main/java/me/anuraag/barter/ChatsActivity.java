@@ -114,13 +114,21 @@ public class ChatsActivity extends Activity {
                         String swag = f.child("email").getValue().toString();
                         if(swag.equals(myuser.getEmail())){
                             curUserId = f.getKey();
-                            snapshots = f.getChildren();
+                            snapshots = f.child("Chat").getChildren();
                             for(DataSnapshot snapshot: snapshots){
-                                Map<String,Object> map = (Map<String,Object>)snapshot.getValue();
-                                String chatTitle = map.get("ListingName").toString();
-                                String chatUserName = map.get("User2Name").toString();
-                                String chatEmail = map.get("User2").toString();
-                                chatObjects.add(new ChatObject(chatTitle,chatUserName,chatEmail));
+                                try {
+                                    Map<String,Object> map = (Map<String,Object>)snapshot.getValue();
+
+                                    Log.d("SNapshot",map.get("ListingName").toString());
+
+                                    String chatTitle = map.get("ListingName").toString();
+                                    String chatUserName = map.get("User2Name").toString();
+                                    Log.d("Username",chatUserName);
+                                    String chatEmail = map.get("User2").toString();
+                                    chatObjects.add(new ChatObject(chatTitle, chatUserName, chatEmail));
+                                }catch(NullPointerException n){
+                                    Log.d(n.toString(),n.toString());
+                                }
                             }
                             chatsAdapter = new ChatsAdapter(getApplicationContext(),chatObjects);
                             listview.setAdapter(chatsAdapter);
@@ -195,7 +203,7 @@ public class ChatsActivity extends Activity {
             ChatObject chatObject = getItem(position);
             // Check if an existing view is being reused, otherwise inflate the view
             if (rootView == null) {
-                rootView = LayoutInflater.from(getContext()).inflate(R.layout.list_view_item, parent, false);
+                rootView = LayoutInflater.from(getContext()).inflate(R.layout.chats_listview_item, parent, false);
             }
             title = (TextView) rootView.findViewById(R.id.title);
             name = (TextView) rootView.findViewById(R.id.name);
