@@ -44,10 +44,13 @@ public class ChatScreen extends Activity {
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private View mCustomView;
-    private Query curUserQuery;
+    private Query curUserQuery,query2;
     private TextView mTitleTextView;
     private ParseUser myuser;
     private Button submit;
+    private Firebase firebaseRef,firebaseRef2;
+    private Map<String,String> messageTemp;
+    private String myusermessageKey,myUserKey,secondUserKey,secondUserMessageKey;
     private EditText messageString;
     private MessageAdapter messageAdapter;
     private String curUserId = "";
@@ -77,11 +80,58 @@ public class ChatScreen extends Activity {
             public void onClick(View v) {
                 if(!messageString.getText().toString().isEmpty()) {
                     String mymessage = messageString.getText().toString();
-                    Map<String,String> messageTemp = new HashMap<String,String>();
+                    messageString.setText("");
+                    messageTemp = new HashMap<String,String>();
                     android.text.format.Time now = new android.text.format.Time();
                     messageTemp.put("TimeStamp",now.toString());
-                    messageTemp.put("MessageText",now.toString());
+                    messageTemp.put("MessageText",mymessage);
                     messageTemp.put("Sender",myuser.getEmail());
+                    Firebase headRef = new Firebase("https://barter.firebaseio.com/Users");
+                    firebaseRef = new Firebase("https://barter.firebaseio.com/Users/" + myUserKey + "/Chat/" + myusermessageKey);
+                    query2 = headRef;
+                    query2.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            try {
+                                //TODO push chat stuff to users too
+//                                Log.d("LOL", dataSnapshot.getValue().toString());
+                                Iterable<DataSnapshot> myIter = dataSnapshot.getChildren();
+                                for(DataSnapshot datasnapshot: myIter){
+//                                    Log.d("Swag",datasnapshot.getValue().toString());
+//                                    Map<String,Object> map = (Map<String,Object>)datasnapshot.getValue();
+                                    try {
+
+//                                        Log.d("wat", datasnapshot.child("email").toString());
+                                        if (datasnapshot.child("email").getValue().toString().equals(getIntent().getStringExtra("ChatterEmail"))) {
+                                            secondUserKey = datasnapshot.getKey();
+                                            Log.d("userkey",secondUserKey);
+                                            Iterable<DataSnapshot> messageSnapshot = datasnapshot.child("Chat").getChildren();
+                                            for (DataSnapshot d : messageSnapshot) {
+                                                if(d.child("User2").getValue().equals(myuser.getEmail())){
+                                                    secondUserMessageKey = d.getKey();
+                                                    Log.d("Message Key", secondUserMessageKey);
+                                                }
+//                                                Log.d("Snap", d.getValue().toString());
+                                            }
+                                        }
+                                    }catch (NullPointerException n){
+
+                                    }
+                                }
+                                query2.removeEventListener(this);
+                                firebaseRef.child("Messages").push().setValue(messageTemp);
+                                firebaseRef2 = new Firebase("https://barter.firebaseio.com/Users/" + secondUserKey + "/Chat/" + secondUserMessageKey);
+                                firebaseRef2.child("Messages").push().setValue(messageTemp);
+                            }catch(NullPointerException n){
+                                Log.d(n.toString(),n.toString());
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(FirebaseError firebaseError) {
+
+                        }
+                    });
                     //TODO ADD PERSON PUSHINGTOO
                 }
 
@@ -137,23 +187,25 @@ public class ChatScreen extends Activity {
                     if (f.child("email").getValue() != null) {
                         String swag = f.child("email").getValue().toString();
                         if (swag.equals(myuser.getEmail())) {
+                            myUserKey = f.getKey();
                             curUserId = f.getKey();
                             snapshots = f.child("Chat").getChildren();
-                            Log.d("Snapshot",f.child("Chat").toString());
-                            Log.d("Child", f.child("email").getValue().toString());
+//                            Log.d("Snapshot",f.child("Chat").toString());
+//                            Log.d("Child", f.child("email").getValue().toString());
                             for(DataSnapshot snapshot: snapshots){
-                                Log.d("Mini Snap",snapshot.getValue().toString());
+//                                Log.d("Mini Snap",snapshot.getValue().toString());
                                 Map<String,Object> map = (Map<String,Object>)snapshot.getValue();
                                 if(map.get("User2").toString().equals(getIntent().getStringExtra("ChatterEmail"))){
                                     messageObjects = new ArrayList<MessageObject>();
+                                    myusermessageKey = snapshot.getKey();
                                     try{
                                         Iterable<DataSnapshot> messageSnapshots = snapshot.child("Messages").getChildren();
                                         for(DataSnapshot d: messageSnapshots){
                                             Map<String,Object> messageMap = (Map<String,Object>)d.getValue();
-                                            messageObjects.add(new MessageObject(messageMap.get("TimeStamp").toString(),messageMap.get("MessageText").toString(),messageMap.get("Sender").toString()));
+                                            messageObjects.add(new MessageObject(messageMap.get("TimeStamp").toString(),messageMap.get("Sender").toString(),messageMap.get("MessageText").toString()));
                                         }
                                     }catch (NullPointerException n){
-                                        Log.d("Null",n.toString());
+//                                        Log.d("Null",n.toString());
                                     }
                                     messageAdapter = new MessageAdapter(getApplicationContext(),messageObjects);
                                     listview.setAdapter(messageAdapter);
@@ -211,7 +263,8 @@ public class ChatScreen extends Activity {
         }
     }
     public static class MessageAdapter extends ArrayAdapter<MessageObject> {
-        private TextView title,name,address;
+        private TextView message,timestamp,address;
+        private ParseUser myuser = ParseUser.getCurrentUser();
         public MessageAdapter(Context context, ArrayList<MessageObject> messageObjects) {
             super(context, 0, messageObjects);
         }
@@ -224,7 +277,14 @@ public class ChatScreen extends Activity {
             if (rootView == null) {
                 rootView = LayoutInflater.from(getContext()).inflate(R.layout.message_listview_item, parent, false);
             }
-
+            message = (TextView)rootView.findViewById(R.id.message);
+            timestamp = (TextView)rootView.findViewById(R.id.timestamp);
+            message.setText(messageObject.getMessageText());
+            timestamp.setText(messageObject.getTimeStamp());
+            if(messageObject.getSenderEmail().equals(myuser.getEmail())){
+                message.setGravity(Gravity.START);
+                timestamp.setGravity(Gravity.START);
+            }
             return rootView;
         }
 
