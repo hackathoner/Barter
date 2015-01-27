@@ -318,7 +318,7 @@ public class ChatScreen extends Activity {
             message.setText(messageObject.getMessageText());
             timestamp.setText(messageObject.getTimeStamp());
             if(messageObject.getSenderEmail().equals(myuser.getEmail())){
-                message.setGravity(Gravity.START);
+                message.setGravity(Gravity.LEFT);
                 timestamp.setGravity(Gravity.START);
             }
             return rootView;

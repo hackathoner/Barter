@@ -37,21 +37,24 @@
     <string name="title_activity_listing">ListingActivity</string>
     <string name="title_activity_chats">ChatsActivity</string>
     <string name="title_activity_chat_screen">ChatScreen</string>
-        <string-array name="spinner_array">
-            <item>Service category</item>
-            <item>Automotive services</item>
-            <item>Beauty services</item>
-            <item>Computer services</item>
-            <item>Culinary services</item>
-            <item>Creative services</item>
-            <item>Event services</item>
-            <item>Garden services</item>
-            <item>Financial services</item>
-            <item>Household services</item>
-            <item>Lessons/Tutoring services</item>
-            <item>Pet services</item>
-            <item>Travel/Vacation services</item>
-            <item>Writing services</item>
 
-        </string-array>
+    <string-array name="spinner_array">
+        <item>Service category</item>
+        <item>Automotive services</item>
+        <item>Beauty services</item>
+        <item>Computer services</item>
+        <item>Culinary services</item>
+        <item>Creative services</item>
+        <item>Event services</item>
+        <item>Garden services</item>
+        <item>Financial services</item>
+        <item>Household services</item>
+        <item>Lessons/Tutoring services</item>
+        <item>Pet services</item>
+        <item>Travel/Vacation services</item>
+        <item>Writing services</item>
+    </string-array>
+
+    <string name="title_activity_manage_listings">ManageListings</string>
+
 </resources>

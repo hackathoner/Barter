@@ -19,6 +19,7 @@
             android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -39,8 +40,13 @@
         </activity>
         <activity
             android:name=".ChatScreen"
+            android:label="@string/title_activity_chat_screen"
+            android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar" >
+        </activity>
+        <activity
+            android:name=".ManageListings"
             android:theme="@android:style/Theme.DeviceDefault.Light.DarkActionBar"
-            android:label="@string/title_activity_chat_screen" >
+            android:label="@string/title_activity_manage_listings" >
         </activity>
     </application>
 
