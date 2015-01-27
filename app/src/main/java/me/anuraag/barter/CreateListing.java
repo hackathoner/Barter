@@ -21,6 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,7 +41,7 @@ public class CreateListing extends Activity {
     private ParseUser myuser;
     private Button back;
     private Button newListing;
-    private TextView plusView;
+    private TextView plusView,myview;
     private TextView mTitleTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,7 +108,27 @@ public class CreateListing extends Activity {
         title = (EditText)findViewById(R.id.editText);
         description = (EditText)findViewById(R.id.editText2);
         address = (EditText)findViewById(R.id.editText4);
+         myview = (TextView)findViewById(R.id.spinnerTitle);
+        Spinner spinner = (Spinner) findViewById(R.id.spinner);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this,
+                R.array.spinner_array, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(adapter);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
 
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String s= parent.getItemAtPosition(position).toString();
+                myview.setText(s);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                myview.setText("Task type");
+            }
+        });
+
+        myview.setText("Service type");
         submit = (Button)findViewById(R.id.button2);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -115,10 +136,14 @@ public class CreateListing extends Activity {
                 if(title.getText().toString().isEmpty() || description.getText().toString().isEmpty()|| address.getText().toString().isEmpty()){
                     issueAlert("Please make sure you fill out all the fields properly");
                 }else {
-                    createListing();
-                    Toast.makeText(getApplicationContext(), "Listing Created", Toast.LENGTH_SHORT).show();
+                    if(myview.getText().toString().equals("Service category")){
+                        issueAlert("Please make sure you choose a proper service category");
+                    }else {
+                        createListing();
+                        Toast.makeText(getApplicationContext(), "Listing Created", Toast.LENGTH_SHORT).show();
 
-                    startActivity(new Intent(getApplicationContext(),HomePage.class));
+                        startActivity(new Intent(getApplicationContext(), HomePage.class));
+                    }
                 }
             }
         });
@@ -132,6 +157,7 @@ public class CreateListing extends Activity {
         listing.put("address",address.getText().toString());
         Log.d(myuser.getEmail(),myuser.getEmail());
         listing.put("creator",myuser.getEmail());
+        listing.put("serviceType",myview.getText().toString());
         listing.put("creatorName",myuser.getString("Name"));
         Log.d("CreatorName",myuser.getString("Name"));
         listing.saveInBackground();
