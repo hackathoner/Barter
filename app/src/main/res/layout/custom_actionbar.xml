@@ -3,7 +3,12 @@
     android:layout_width="match_parent"
     android:layout_height="50dp"
     android:background="#e74c3c" >
-
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:id="@+id/button3"
+        android:layout_alignParentBottom="true" />
     <TextView
         android:id="@+id/title_text"
         android:layout_width="wrap_content"
@@ -11,18 +16,18 @@
         android:textSize="20sp"
         android:layout_centerVertical="true"
         android:fontFamily="sans-serif-light"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="23dp"
         android:layout_toRightOf="@+id/imageView1"
         android:textColor="#fff"
          />
 
     <ImageView
         android:id="@+id/imageView1"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_alignParentLeft="true"
         android:layout_centerVertical="true"
-        android:layout_marginLeft="8dp"
+        android:layout_marginLeft="15dp"
         android:src="@drawable/ic_menu" />
 
     <TextView
@@ -30,6 +35,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         />
+
 
 
 

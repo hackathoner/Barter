@@ -6,6 +6,7 @@ import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -60,7 +61,7 @@ public class HomePage extends Activity {
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private View mCustomView;
-    private ImageView menu;
+    private Button menu;
     private ListingAdapter listingAdapter;
     private ArrayList<ListingObject> listingObjects;
     private ListView listview;
@@ -93,11 +94,23 @@ public class HomePage extends Activity {
         mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
         mTitleTextView.setText("HomePage");
-        menu = (ImageView)mCustomView.findViewById(R.id.imageView1);
+        menu = (Button)mCustomView.findViewById(R.id.button3);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 doThis();
+            }
+        });
+        menu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    menu.setBackground(new ColorDrawable(0xFFc0392b));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    menu.setBackgroundColor(Color.TRANSPARENT);
+                }
+                return false;
             }
         });
 
@@ -233,6 +246,10 @@ public class HomePage extends Activity {
             }
             if(name.equals("Chats")){
                 startActivity(new Intent(getApplicationContext(),ChatsActivity.class));
+            }
+            if(name.equals("Logout")){
+                ParseUser.getCurrentUser().logOut();
+                startActivity(new Intent(getApplicationContext(), SignIn.class));
             }
             Toast.makeText(getApplicationContext(), ((TextView)view).getText(), Toast.LENGTH_LONG).show();
             doThis();

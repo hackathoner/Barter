@@ -3,6 +3,8 @@ package me.anuraag.barter;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -11,10 +13,12 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -50,7 +54,7 @@ public class ChatsActivity extends Activity {
     private ArrayList<ChatObject> chatObjects;
     private ListView listview;
     private List<ParseObject> templist;
-    private ImageView menu;
+    private Button menu;
 
 
     @Override
@@ -74,14 +78,27 @@ public class ChatsActivity extends Activity {
 
         mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
-        mTitleTextView.setText("Create Listing");
-        menu = (ImageView)mCustomView.findViewById(R.id.imageView1);
+        mTitleTextView.setText("Chats");
+        menu = (Button)mCustomView.findViewById(R.id.button3);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 doThis();
             }
         });
+        menu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    menu.setBackground(new ColorDrawable(0xFFc0392b));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    menu.setBackgroundColor(Color.TRANSPARENT);
+                }
+                return false;
+            }
+        });
+
 
 
         mActionBar.setCustomView(mCustomView);

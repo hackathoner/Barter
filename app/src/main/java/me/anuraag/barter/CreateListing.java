@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -35,7 +38,7 @@ public class CreateListing extends Activity {
     private EditText title,description,date,address;
     private Button submit;
     private ParseUser myuser;
-    private ImageView menu;
+    private Button menu;
     private TextView mTitleTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,11 +62,23 @@ public class CreateListing extends Activity {
         mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
         mTitleTextView.setText("Create Listing");
-        menu = (ImageView)mCustomView.findViewById(R.id.imageView1);
+        menu = (Button)mCustomView.findViewById(R.id.button3);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 doThis();
+            }
+        });
+        menu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    menu.setBackground(new ColorDrawable(0xFFc0392b));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    menu.setBackgroundColor(Color.TRANSPARENT);
+                }
+                return false;
             }
         });
 

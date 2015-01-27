@@ -21,8 +21,9 @@
     <string-array name="Items">
         <item>Home</item>
         <item>Chats</item>
-        <item>Create Listing</item>
+        <item>Manage Your Listings</item>
         <item>Settings</item>
+        <item>Logout</item>
     </string-array>
 
     <string name="action_settings">Settings</string>

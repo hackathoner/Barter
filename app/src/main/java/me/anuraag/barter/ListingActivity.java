@@ -2,6 +2,8 @@ package me.anuraag.barter;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v4.widget.DrawerLayout;
 import android.util.Log;
@@ -9,6 +11,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -41,7 +44,7 @@ public class ListingActivity extends Activity {
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private View mCustomView;
-    private ImageView menu;
+    private Button menu;
     private Query curUserQuery;
     private String friendUserId,curUserId;
     private ListView listview;
@@ -159,11 +162,23 @@ public class ListingActivity extends Activity {
         mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
         mTitleTextView.setText("Listing");
-        menu = (ImageView)mCustomView.findViewById(R.id.imageView1);
+        menu = (Button)mCustomView.findViewById(R.id.button3);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 doThis();
+            }
+        });
+        menu.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    menu.setBackground(new ColorDrawable(0xFFc0392b));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    menu.setBackgroundColor(Color.TRANSPARENT);
+                }
+                return false;
             }
         });
 

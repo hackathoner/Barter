@@ -15,7 +15,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Eatifi"
+        android:text="Barter"
         android:textColor="#ecf0f1"
         android:textSize="60sp"
         android:fontFamily="sans-serif-medium"
