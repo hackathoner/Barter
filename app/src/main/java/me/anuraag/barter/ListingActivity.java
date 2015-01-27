@@ -48,11 +48,11 @@ public class ListingActivity extends Activity {
     private Query curUserQuery;
     private String friendUserId,curUserId;
     private ListView listview;
-    private Button startChat;
+    private Button startChat,newListing;
     private Firebase curUserRef,friendUserRef;
     private ParseUser myuser;
     private Firebase myref;
-    private TextView title,address,description,creator;
+    private TextView title,address,description,creator,plusView;
     private TextView mTitleTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +162,26 @@ public class ListingActivity extends Activity {
         mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
         mTitleTextView.setText("Listing");
+        newListing = (Button)mCustomView.findViewById(R.id.button4);
+        plusView = (TextView)mCustomView.findViewById(R.id.textView4);
+        newListing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),CreateListing.class));
+            }
+        });
+        newListing.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    newListing.setBackground(new ColorDrawable(0xFFc0392b));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    newListing.setBackgroundColor(Color.TRANSPARENT);
+                }
+                return false;
+            }
+        });
         menu = (Button)mCustomView.findViewById(R.id.button3);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override

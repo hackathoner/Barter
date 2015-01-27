@@ -61,13 +61,13 @@ public class HomePage extends Activity {
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private View mCustomView;
-    private Button menu;
+    private Button menu,newListing;
     private ListingAdapter listingAdapter;
     private ArrayList<ListingObject> listingObjects;
     private ListView listview;
     private List<ParseObject> templist;
     private ParseUser myuser;
-    private TextView mTitleTextView;
+    private TextView mTitleTextView,plusView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -94,6 +94,26 @@ public class HomePage extends Activity {
         mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
         mTitleTextView.setText("HomePage");
+        newListing = (Button)mCustomView.findViewById(R.id.button4);
+        plusView = (TextView)mCustomView.findViewById(R.id.textView4);
+        newListing.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),CreateListing.class));
+            }
+        });
+        newListing.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    newListing.setBackground(new ColorDrawable(0xFFc0392b));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    newListing.setBackgroundColor(Color.TRANSPARENT);
+                }
+                return false;
+            }
+        });
         menu = (Button)mCustomView.findViewById(R.id.button3);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override

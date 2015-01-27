@@ -39,6 +39,8 @@ public class CreateListing extends Activity {
     private Button submit;
     private ParseUser myuser;
     private Button menu;
+    private Button newListing;
+    private TextView plusView;
     private TextView mTitleTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,10 @@ public class CreateListing extends Activity {
         mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
         mTitleTextView.setText("Create Listing");
+        newListing = (Button)mCustomView.findViewById(R.id.button4);
+        plusView = (TextView)mCustomView.findViewById(R.id.textView4);
+        plusView.setVisibility(View.GONE);
+        newListing.setVisibility(View.GONE);
         menu = (Button)mCustomView.findViewById(R.id.button3);
         menu.setOnClickListener(new View.OnClickListener() {
             @Override
