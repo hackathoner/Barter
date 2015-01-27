@@ -1,7 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:id="@+id/">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="50dp"
+    android:background="#e74c3c" >
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:background="@android:color/transparent"
+        android:id="@+id/button3"
+        android:layout_alignParentBottom="true" />
+    <TextView
+        android:id="@+id/title_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="20sp"
+        android:layout_centerVertical="true"
+        android:fontFamily="sans-serif-light"
+        android:layout_marginLeft="23dp"
+        android:layout_toRightOf="@+id/imageView1"
+        android:textColor="#fff"
+        />
 
-</LinearLayout>
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_alignParentLeft="true"
+        android:layout_centerVertical="true"
+        android:layout_marginLeft="15dp"
+        android:src="@drawable/fron" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        android:id="@+id/textView3" />
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:id="@+id/button4"
+        android:background="@android:color/transparent"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
+        />
+
+    <TextView
+        android:layout_width="60dp"
+        android:layout_height="match_parent"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="+"
+        android:textColor="@android:color/white"
+        android:textSize="30sp"
+        android:id="@+id/textView4"
+        android:gravity="center"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+
+
+
+</RelativeLayout>

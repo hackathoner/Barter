@@ -44,7 +44,7 @@ public class ListingActivity extends Activity {
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private View mCustomView;
-    private Button menu;
+    private Button back;
     private Query curUserQuery;
     private String friendUserId,curUserId;
     private ListView listview;
@@ -159,7 +159,7 @@ public class ListingActivity extends Activity {
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
-        mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+        mCustomView = mInflater.inflate(R.layout.back_actionbar, null);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
         mTitleTextView.setText("Listing");
         newListing = (Button)mCustomView.findViewById(R.id.button4);
@@ -182,21 +182,21 @@ public class ListingActivity extends Activity {
                 return false;
             }
         });
-        menu = (Button)mCustomView.findViewById(R.id.button3);
-        menu.setOnClickListener(new View.OnClickListener() {
+        back = (Button)mCustomView.findViewById(R.id.button3);
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doThis();
+                startActivity(new Intent(getApplicationContext(),HomePage.class));
             }
         });
-        menu.setOnTouchListener(new View.OnTouchListener() {
+        back.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    menu.setBackground(new ColorDrawable(0xFFc0392b));
+                    back.setBackground(new ColorDrawable(0xFFc0392b));
                 }
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    menu.setBackgroundColor(Color.TRANSPARENT);
+                    back.setBackgroundColor(Color.TRANSPARENT);
                 }
                 return false;
             }

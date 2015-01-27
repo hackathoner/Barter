@@ -48,7 +48,7 @@ public class ChatScreen extends Activity {
     private DrawerLayout drawerLayout;
     private View mCustomView;
     private Query curUserQuery,query2;
-    private TextView mTitleTextView;
+    private TextView mTitleTextView,plusView;
     private ParseUser myuser;
     private Button submit;
     private Firebase firebaseRef,firebaseRef2;
@@ -61,7 +61,7 @@ public class ChatScreen extends Activity {
     private ArrayList<MessageObject> messageObjects;
     private ListView listview;
     private List<ParseObject> templist;
-    private Button menu;
+    private Button back,newListing;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -147,24 +147,44 @@ public class ChatScreen extends Activity {
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
-        mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+        mCustomView = mInflater.inflate(R.layout.back_actionbar, null);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
         mTitleTextView.setText(getIntent().getStringExtra("ChatterName"));
-        menu = (Button)mCustomView.findViewById(R.id.button3);
-        menu.setOnClickListener(new View.OnClickListener() {
+        newListing = (Button)mCustomView.findViewById(R.id.button4);
+        plusView = (TextView)mCustomView.findViewById(R.id.textView4);
+        newListing.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doThis();
+                startActivity(new Intent(getApplicationContext(),CreateListing.class));
             }
         });
-        menu.setOnTouchListener(new View.OnTouchListener() {
+        newListing.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    menu.setBackground(new ColorDrawable(0xFFc0392b));
+                    newListing.setBackground(new ColorDrawable(0xFFc0392b));
                 }
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    menu.setBackgroundColor(Color.TRANSPARENT);
+                    newListing.setBackgroundColor(Color.TRANSPARENT);
+                }
+                return false;
+            }
+        });
+        back = (Button)mCustomView.findViewById(R.id.button3);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getApplicationContext(),ChatsActivity.class));
+            }
+        });
+        back.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if(event.getAction() == MotionEvent.ACTION_DOWN) {
+                    back.setBackground(new ColorDrawable(0xFFc0392b));
+                }
+                if(event.getAction() == MotionEvent.ACTION_UP){
+                    back.setBackgroundColor(Color.TRANSPARENT);
                 }
                 return false;
             }

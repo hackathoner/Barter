@@ -38,7 +38,7 @@ public class CreateListing extends Activity {
     private EditText title,description,date,address;
     private Button submit;
     private ParseUser myuser;
-    private Button menu;
+    private Button back;
     private Button newListing;
     private TextView plusView;
     private TextView mTitleTextView;
@@ -61,28 +61,28 @@ public class CreateListing extends Activity {
         mActionBar.setDisplayShowTitleEnabled(false);
         LayoutInflater mInflater = LayoutInflater.from(this);
 
-        mCustomView = mInflater.inflate(R.layout.custom_actionbar, null);
+        mCustomView = mInflater.inflate(R.layout.back_actionbar, null);
         mTitleTextView = (TextView) mCustomView.findViewById(R.id.title_text);
         mTitleTextView.setText("Create Listing");
         newListing = (Button)mCustomView.findViewById(R.id.button4);
         plusView = (TextView)mCustomView.findViewById(R.id.textView4);
         plusView.setVisibility(View.GONE);
         newListing.setVisibility(View.GONE);
-        menu = (Button)mCustomView.findViewById(R.id.button3);
-        menu.setOnClickListener(new View.OnClickListener() {
+        back = (Button)mCustomView.findViewById(R.id.button3);
+        back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                doThis();
+                startActivity(new Intent(getApplicationContext(),HomePage.class));
             }
         });
-        menu.setOnTouchListener(new View.OnTouchListener() {
+        back.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 if(event.getAction() == MotionEvent.ACTION_DOWN) {
-                    menu.setBackground(new ColorDrawable(0xFFc0392b));
+                    back.setBackground(new ColorDrawable(0xFFc0392b));
                 }
                 if(event.getAction() == MotionEvent.ACTION_UP){
-                    menu.setBackgroundColor(Color.TRANSPARENT);
+                    back.setBackgroundColor(Color.TRANSPARENT);
                 }
                 return false;
             }
