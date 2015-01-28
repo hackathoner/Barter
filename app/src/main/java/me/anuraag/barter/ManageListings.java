@@ -40,13 +40,9 @@ public class ManageListings extends Activity {
     private ListView drawerListView;
     private DrawerLayout drawerLayout;
     private View mCustomView;
-    private Query curUserQuery;
     private TextView mTitleTextView,plusView;
     private ParseUser myuser;
     private HomePage.ListingAdapter listingAdapter;
-    private String curUserId = "";
-    private Iterable<DataSnapshot> snapshots;
-    private ArrayList<ChatObject> chatObjects;
     private ArrayList<ListingObject> listingObjects;
     private ListView listview;
     private List<ParseObject> templist;

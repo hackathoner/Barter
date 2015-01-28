@@ -47,7 +47,6 @@ public class ListingActivity extends Activity {
     private Button back;
     private Query curUserQuery;
     private String friendUserId,curUserId;
-    private ListView listview;
     private Button startChat,newListing;
     private Firebase curUserRef,friendUserRef;
     private ParseUser myuser;
