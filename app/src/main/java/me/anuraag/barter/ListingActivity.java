@@ -186,7 +186,8 @@ public class ListingActivity extends Activity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),HomePage.class));
+//                startActivity(new Intent(getApplicationContext(),HomePage.class));
+                finish();
             }
         });
         back.setOnTouchListener(new View.OnTouchListener() {

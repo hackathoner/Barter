@@ -174,7 +174,7 @@ public class ChatScreen extends Activity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),ChatsActivity.class));
+                finish();
             }
         });
         back.setOnTouchListener(new View.OnTouchListener() {

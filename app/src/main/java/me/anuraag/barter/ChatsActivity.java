@@ -103,7 +103,7 @@ public class ChatsActivity extends Activity {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(),HomePage.class));
+                finish();
             }
         });
         back.setOnTouchListener(new View.OnTouchListener() {
@@ -220,6 +220,9 @@ public class ChatsActivity extends Activity {
             }
             if(name.equals("Chats")){
                 startActivity(new Intent(getApplicationContext(),ChatsActivity.class));
+            }
+            if(name.equals("Manage Listings")){
+                startActivity(new Intent(getApplicationContext(),ManageListings.class));
             }
             Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_LONG).show();
             doThis();

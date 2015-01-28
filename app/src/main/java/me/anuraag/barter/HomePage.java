@@ -154,7 +154,7 @@ public class HomePage extends Activity {
     }
     public void populateListView(){
         templist = new ArrayList<ParseObject>();
-          listingObjects = new ArrayList<ListingObject>();
+        listingObjects = new ArrayList<ListingObject>();
         ParseQuery<ParseObject> query = ParseQuery.getQuery("Listing");
         query.whereNotEqualTo("title", " ");
         query.findInBackground(new FindCallback<ParseObject>() {
@@ -164,7 +164,13 @@ public class HomePage extends Activity {
                     Log.d("score", "Retrieved " + parseObjects.size() + " scores");
                     templist = parseObjects;
                     for(int x = 0; x < parseObjects.size(); x++){
-                        listingObjects.add(new ListingObject(parseObjects.get(x).getString("title"),parseObjects.get(x).getString("address"),parseObjects.get(x).getString("description"),parseObjects.get(x).getString("creator"),parseObjects.get(x).getString("creatorName")));
+                        ListingObject l = new ListingObject(parseObjects.get(x).getString("title"),parseObjects.get(x).getString("address"),parseObjects.get(x).getString("description"),parseObjects.get(x).getString("creator"),parseObjects.get(x).getString("creatorName"));
+                        try {
+                            l.setListingType(parseObjects.get(x).getString("serviceType"));
+                        }catch(NullPointerException n){
+
+                        }
+                        listingObjects.add(l);
                         Log.i("ObjectCreated",new ListingObject(parseObjects.get(x).getString("title"),parseObjects.get(x).getString("address"),parseObjects.get(x).getString("description"),parseObjects.get(x).getString("creator"),parseObjects.get(x).getString("creatorName")).toString());
                         listingAdapter = new ListingAdapter(getApplicationContext(),listingObjects);
                         listview = (ListView)findViewById(R.id.lists);
@@ -198,6 +204,7 @@ public class HomePage extends Activity {
     }
     public static class ListingAdapter extends ArrayAdapter<ListingObject> {
         private TextView title,description,address;
+        private ImageView image;
         public ListingAdapter(Context context, ArrayList<ListingObject> notifs) {
             super(context, 0, notifs);
         }
@@ -211,6 +218,25 @@ public class HomePage extends Activity {
                 rootView = LayoutInflater.from(getContext()).inflate(R.layout.list_view_item, parent, false);
             }
             title = (TextView) rootView.findViewById(R.id.title);
+            image = (ImageView)rootView.findViewById(R.id.imageView);
+            if(notif.getListingType() != null){
+                String s = notif.getListingType();
+                ArrayAdapter<String> itemsArrayList = new ArrayAdapter<String>(getContext(),   android.R.layout.simple_list_item_1);
+                String[] itemNames = getContext().getResources().getStringArray(R.array.spinner_array);
+                for(String names: itemNames){
+                    if(s.equals(names)){
+                        String swag = "R.drawable." + names.trim().replace(" ","");
+                        Log.d("Swig",swag);
+                        if(names.contains("/")){
+                            names = names.replace("/","");
+                        }
+                        names = names.toLowerCase();
+                        image.setImageResource(getContext().getResources().getIdentifier(names.replace(" ",""),"drawable",getContext().getPackageName()));
+//                        getContext().getResources().getDrawable()
+                    }
+                }
+
+            }
 //            description = (TextView) rootView.findViewById(R.id.description);
 //            address = (TextView) rootView.findViewById(R.id.address);
 
@@ -270,6 +296,9 @@ public class HomePage extends Activity {
             if(name.equals("Logout")){
                 ParseUser.getCurrentUser().logOut();
                 startActivity(new Intent(getApplicationContext(), SignIn.class));
+            }
+            if(name.equals("Manage Listings")){
+                startActivity(new Intent(getApplicationContext(),ManageListings.class));
             }
             Toast.makeText(getApplicationContext(), ((TextView)view).getText(), Toast.LENGTH_LONG).show();
             doThis();

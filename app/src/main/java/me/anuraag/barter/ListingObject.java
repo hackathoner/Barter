@@ -4,7 +4,7 @@ package me.anuraag.barter;
  * Created by Anuraag on 12/24/14.
  */
 public class ListingObject {
-    private String title,address,description,creator,creatorName;
+    private String title,address,description,creator,creatorName,listingType;
 
     public ListingObject(String t, String a, String d, String c,String cName){
         this.title = t;
@@ -28,8 +28,14 @@ public class ListingObject {
     public String getCreatorName(){
         return this.creatorName;
     }
+    public String getListingType(){
+        return this.listingType;
+    }
     public void setTitle(String t){
         this.title = t;
+    }
+    public void setListingType(String listingType){
+        this.listingType = listingType;
     }
     public void setCreatorName(String cName){
         this.creatorName = cName;
