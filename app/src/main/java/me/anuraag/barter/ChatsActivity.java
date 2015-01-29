@@ -177,11 +177,12 @@ public class ChatsActivity extends Activity {
                                     myIntent.putExtra("ChatterEmail", chatObject.getChatterEmail());
                                     myIntent.putExtra("Title",chatObject.getTitle());
                                     startActivity(myIntent);
+
                                 }
                             });
 
-                        }
 
+                        }
                         Log.d("Child", f.child("email").getValue().toString());
 
                     }else{

@@ -221,9 +221,10 @@ public class HomePage extends Activity {
             image = (ImageView)rootView.findViewById(R.id.imageView);
             if(notif.getListingType() != null){
                 String s = notif.getListingType();
+                String names = notif.getListingType();
                 ArrayAdapter<String> itemsArrayList = new ArrayAdapter<String>(getContext(),   android.R.layout.simple_list_item_1);
                 String[] itemNames = getContext().getResources().getStringArray(R.array.spinner_array);
-                for(String names: itemNames){
+//                for(String names: itemNames){
                     if(s.equals(names)){
                         String swag = "R.drawable." + names.trim().replace(" ","");
                         Log.d("Swig",swag);
@@ -233,7 +234,7 @@ public class HomePage extends Activity {
                         names = names.toLowerCase();
                         image.setImageResource(getContext().getResources().getIdentifier(names.replace(" ",""),"drawable",getContext().getPackageName()));
 //                        getContext().getResources().getDrawable()
-                    }
+//                    }
                 }
 
             }

@@ -14,10 +14,11 @@
 
         <ListView
             android:layout_width="match_parent"
-            android:divider="@android:color/black"
-            android:dividerHeight="1dp"
+            android:dividerHeight="50dp"
+            android:divider="@android:color/transparent"
             android:layout_marginBottom="60dp"
             android:id="@+id/lists"
+            android:scrollbars="none"
             android:stackFromBottom="true"
             android:transcriptMode="alwaysScroll"
             android:layout_height="match_parent">

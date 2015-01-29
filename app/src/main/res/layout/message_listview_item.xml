@@ -1,31 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_margin="20dp"
-    android:padding="20dp"
     android:id="@+id/layout"
+    android:layout_marginTop="40dp"
+    android:layout_marginLeft="15dp"
+    android:layout_marginRight="15dp"
     android:layout_height="match_parent">
 
     <TextView
         android:id="@+id/message"
-        android:textColor="#e74c3c"
+        android:textColor="#2c3e50"
         android:layout_width="wrap_content"
         android:padding="4dp"
+        android:fontFamily="sans-serif-light"
         android:layout_alignParentRight="true"
-        android:textSize="23sp"
+        android:textSize="17sp"
+        android:gravity="left"
         android:layout_height="wrap_content"
         android:text="Lawnmover Listing" />
-    <TextView
-        android:id="@+id/timestamp"
-        android:textColor="#e74c3c"
-        android:layout_width="wrap_content"
-        android:padding="4dp"
-        android:layout_alignParentRight="true"
-        android:textSize="15sp"
-       android:gravity="right"
-        android:layout_below="@+id/message"
-        android:layout_height="wrap_content"
-        android:text="Anuraag Yachamaneni" />
+    <!--<TextView-->
+        <!--android:id="@+id/timestamp"-->
+        <!--android:textColor="#2c3e50"-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:padding="4dp"-->
+        <!--android:textSize="11sp"-->
+        <!--android:gravity="right"-->
+        <!--android:layout_below="@+id/message"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:text="Anuraag Yachamaneni" />-->
 
 
 </RelativeLayout>

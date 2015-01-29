@@ -22,6 +22,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -313,13 +314,32 @@ public class ChatScreen extends Activity {
             if (rootView == null) {
                 rootView = LayoutInflater.from(getContext()).inflate(R.layout.message_listview_item, parent, false);
             }
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams.addRule(RelativeLayout.ALIGN_PARENT_LEFT);
+            RelativeLayout.LayoutParams layoutParams2 = new RelativeLayout.LayoutParams(
+                    RelativeLayout.LayoutParams.WRAP_CONTENT,
+                    RelativeLayout.LayoutParams.WRAP_CONTENT);
+            layoutParams2.addRule(RelativeLayout.ALIGN_PARENT_RIGHT);
+
             message = (TextView)rootView.findViewById(R.id.message);
-            timestamp = (TextView)rootView.findViewById(R.id.timestamp);
+//            timestamp = (TextView)rootView.findViewById(R.id.timestamp);
             message.setText(messageObject.getMessageText());
-            timestamp.setText(messageObject.getTimeStamp());
+//            timestamp.setText(messageObject.getTimeStamp());
             if(messageObject.getSenderEmail().equals(myuser.getEmail())){
-                message.setGravity(Gravity.LEFT);
-                timestamp.setGravity(Gravity.START);
+                message.setLayoutParams(layoutParams);
+                layoutParams.addRule(RelativeLayout.BELOW,R.id.message);
+//                timestamp.setLayoutParams(layoutParams);
+//                rootView.setBackgroundColor(0xFF419fdd);
+//                timestamp.setLayoutParams(layoutParams);
+            }else{
+                message.setLayoutParams(layoutParams2);
+                layoutParams2.addRule(RelativeLayout.BELOW,R.id.message);
+//                timestamp.setLayoutParams(layoutParams2);
+//                rootView.setBackgroundColor(0xFFe74c3c);
+
+//                timestamp.setLayoutParams(layoutParams2);
             }
             return rootView;
         }
